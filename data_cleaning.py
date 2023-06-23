@@ -18,8 +18,8 @@ df_car = df_car[df_car['fuel_type'] != 'Unknown']
 df_car = df_car[df_car['drivetrain'] !='Unknown']
 
 # Drivetrain
-df_car['drive_train_dummies'] = df_car['drivetrain'].apply(lambda x: 1 if x == 'Four-wheel Drive' else 0)
-
+df_car['drive_train_dummies'] = df_car['drivetrain'].apply(lambda x: 1 if x == 'Four-wheel Drive'  else (2 if x == '-wheel Drive' else 3))
+df_car['drivetrain'].value_counts()
 # Engine Size 
 # High Performance > 2.5
 # Low - Mid Performance < 2.5
@@ -63,6 +63,10 @@ def avg_mpg(df_car):
     
 df_car['efficiency'] = df_car.apply(avg_mpg, axis = 1)
 df_car['efficiency'].value_counts()
+
+# Price
+df_car['price'] = pd.to_numeric(df_car['price'], errors='coerce')
+df_car['price'] = df_car['price'].astype(float)
 
 # Save to csv 
 df_car.to_csv('data_cleaned.csv', index = False)
